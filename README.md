@@ -1,41 +1,30 @@
-# QEMU for emulating satellite firmware for Hack-A-Sat final event
+# SPACE SECURITY CHALLENGE 2020 HACK-A-SAT: Tools & Infra
 
-## Setup
+## QEMU + GDB to emulate and debug a satellite
 
-You need to download [QEMU 4.1.0](https://download.qemu.org/qemu-4.1.0.tar.xz) first, then decompress it in this folder:
+The subfolder [`qemu-vm`](https://github.com/solar-wine/tools-for-hack-a-sat-2020/tree/master/qemu-vm) contains instructions and patches to compile and launch QEMU for the satellite architecture.
 
-```sh
-tar xaf qemu-4.1.0.tar.xz
-```
-Apply the provided patches to recreate the satellite architecture and fix some bugs:
+The binaries given for the Finals are also present so that it is possible to replay some of the Finals challenges.
 
-```sh
-for patch in ./qemu-patches/*
-do
-    patch -p1 < "${patch}"
-done
-```
+In addition, a `python-gdb` plugin for `RTEMS 5` is provided to help debugging. Specifically, it helps developping the exploit to solve Chall3 from the Finals.
 
-Finally, run the launch script, it will take care of the QEMU compilation:
+## CCSDS using scapy
 
-```sh
-./launch-qemu.sh <PROM file> [extra qemu options]
-```
+The subfolder [`scapy-space-packets`](https://github.com/solar-wine/tools-for-hack-a-sat-2020/tree/master/scapy-space-packets) provides an implementation of the CCSDS Space Packet Protocol using Python and [`scapy`](https://scapy.net/).
 
-The debug UART will be directly available on `stdio` while the Radio and C&DH UART are available through Unix sockets: `radio.sock` and `atmega.sock`.
+Using a command line interface, it enables communicating with a satellite without the hassle of having to find where to click on a GUI interface.
 
-## Debugging
+It can directly connect to the satellite via a Unix socket or TCP port, or using the [COSMOS](https://cosmosrb.com/) router port.
 
-You need to install `gdb-multiarch` or you can compile the full toolchain with GDB using the [RTEMS tools](https://github.com/RTEMS/rtems-tools).
+## Infrastructure
 
-Follow the dedicated [README in the `gdbpython` folder](gdbpython/README.md).
+Parts of the infrastructure we used during the final event and for the preparation phase are available in the [`infra`](infra/) subfolder.
 
-## Additional resources
+## Misc
 
-Some GDB scripts are provided to help debugging:
-  - [`fix_gdb_uart_to_ci_dos.gdbscript`](./fix_gdb_uart_to_ci_dos.gdbscript)
-  - [`load_implant.gdbscript`](./load_implant.gdbscript)
+A list of acronyms can be found in [`acronyms.md`](https://github.com/solar-wine/tools-for-hack-a-sat-2020/blob/master/acronyms.md).
 
-The fix for the `UART_TO_CI` module (UART Telemetry Output and Command Ingest) dynamically fixes an underflow in the message parsing that ends up rewritting all the satellite memory with garbage. This script was created early on during the preparation, and uses breakpoints to work.
 
-The second script first patches the previously described underflow, then loads the implant from Chall3 in memory, and finally patches a kernel function call to initialize it as was the case during the "attack". This script is useful to help debug the exploit needed to validate Chall3.
+--
+
+*Solar Wine Team*

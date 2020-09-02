@@ -1,0 +1,199 @@
+from typing import Mapping
+
+
+# APID names according to "That's not on my calendar" challenge
+# find /src -name unit_test -prune -o -name examples -prune -o \
+#   -name '*.h' -exec cat {} + | \
+#   sed -n 's/^\s*#define\s*\(\S*\)_MID\s.*\(0x[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]\).*/\1 = \2/p' | \
+#   sort -u | sort -k3
+#
+# Merged with APID from cosmos/lib/fsw_msg_id.rb from the files for Hack-A-Sat final
+# and /eeprom/kit_sch_msg_tbl.json from the Hack-A-Sat final firmware
+APID_NAMES: Mapping[int, Mapping[int, str]] = {
+    # CMD
+    1: {
+        0x001: "CFE_EVS_CMD",  # CFE_EVS_CMD_MID = 0x1801
+        0x002: "ISIM_CMD",  # ISIM_CMD_MID = 0x1802
+        0x003: "CFE_SB_CMD",  # CFE_SB_CMD_MID = 0x1803
+        0x004: "CFE_TBL_CMD",  # CFE_TBL_CMD_MID = 0x1804
+        0x005: "CFE_TIME_CMD",  # CFE_TIME_CMD_MID = 0x1805
+        0x006: "CFE_ES_CMD",  # CFE_ES_CMD_MID = 0x1806
+        0x008: "CFE_ES_SEND_HK",  # CFE_ES_SEND_HK_MID = 0x1808
+        0x009: "CFE_EVS_SEND_HK",  # CFE_EVS_SEND_HK_MID = 0x1809
+        0x00b: "CFE_SB_SEND_HK",  # CFE_SB_SEND_HK_MID = 0x180b
+        0x00c: "CFE_TBL_SEND_HK",  # CFE_TBL_SEND_HK_MID = 0x180c
+        0x00d: "CFE_TIME_SEND_HK",  # CFE_TIME_SEND_HK_MID = 0x180d
+        0x010: "CFE_TIME_TONE_CMD",  # CFE_TIME_TONE_CMD_MID = 0x1810
+        0x011: "CFE_TIME_1HZ_CMD",  # CFE_TIME_1HZ_CMD_MID = 0x1811
+        0x060: "CFE_TIME_DATA_CMD",  # CFE_TIME_DATA_CMD_MID = 0x1860
+        0x062: "CFE_TIME_SEND_CMD",  # CFE_TIME_SEND_CMD_MID = 0x1862
+        0x066: "OSK_DEMO_CMD",  # OSK_DEMO_CMD_MID = 0x1866
+        0x080: "KIT_TO_CMD",  # KIT_TO_CMD_MID = 0x1880
+        0x081: "KIT_TO_SEND_HK",  # KIT_TO_SEND_HK_MID = 0x1881
+        0x082: "HB_CMD",  # HB_CMD_MID = 0x1882
+        # 0x082: "KIT_TO_SEND_FLAG",  # KIT_TO_SEND_FLAG_MID = 0x1882 Specific to "That's not on my calendar" challenge
+        0x083: "OSK_GENAPP_CMD",  # OSK_GENAPP_CMD_MID = 0x1883
+        0x084: "KIT_CI_CMD",  # KIT_CI_CMD_MID = 0x1884
+        # 0x085: "KIT_CI_SEND_HK",  # KIT_CI_SEND_HK_MID = 0x1885 Specific to "That's not on my calendar" challenge
+        0x088: "MM_CMD",  # MM_CMD_MID = 0x1888
+        0x089: "MM_SEND_HK",  # MM_SEND_HK_MID = 0x1889
+        0x08c: "FM_CMD",  # FM_CMD_MID = 0x188c
+        0x08d: "FM_SEND_HK",  # FM_SEND_HK_MID = 0x188d
+        0x090: "MD_CMD",  # MD_CMD_MID = 0x1890
+        0x091: "MD_SEND_HK",  # MD_SEND_HK_MID = 0x1891
+        0x092: "MD_WAKEUP",  # MD_WAKEUP_MID = 0x1892
+        0x095: "KIT_SCH_CMD",  # KIT_SCH_CMD_MID = 0x1895
+        0x096: "KIT_SCH_SEND_HK",  # KIT_SCH_SEND_HK_MID = 0x1896
+        0x09a: "HK_CMD",  # HK_CMD_MID = 0x189a
+        0x09b: "HK_SEND_HK",  # HK_SEND_HK_MID = 0x189b
+        0x09c: "HK_SEND_COMBINED_PKT",  # HK_SEND_COMBINED_PKT_MID = 0x189c
+        0x09f: "CS_CMD",  # CS_CMD_MID = 0x189f
+        0x0a0: "CS_SEND_HK",  # CS_SEND_HK_MID = 0x18a0
+        0x0a1: "CS_BACKGROUND_CYCLE",  # CS_BACKGROUND_CYCLE_MID = 0x18a1
+        0x0a4: "LC_CMD",  # LC_CMD_MID = 0x18a4
+        0x0a5: "LC_SEND_HK",  # LC_SEND_HK_MID = 0x18a5
+        0x0a6: "LC_SAMPLE_AP",  # LC_SAMPLE_AP_MID = 0x18a6
+        # 0x0a9: "LC_RTS_REQ",  # LC_RTS_REQ_MID = 0x18a9  # Duplicate?
+        0x0a9: "SC_CMD",  # SC_CMD_MID = 0x18a9
+        0x0aa: "SC_SEND_HK",  # SC_SEND_HK_MID = 0x18aa
+        0x0ab: "SC_1HZ_WAKEUP",  # SC_1HZ_WAKEUP_MID = 0x18ab
+        0x0ae: "HS_CMD",  # HS_CMD_MID = 0x18ae
+        0x0af: "HS_SEND_HK",  # HS_SEND_HK_MID = 0x18af
+        0x0b0: "HS_WAKEUP",  # HS_WAKEUP_MID = 0x18b0
+        0x0b3: "CF_CMD",  # CF_CMD_MID = 0x18b3
+        0x0b4: "CF_SEND_HK",  # CF_SEND_HK_MID = 0x18b4
+        0x0b5: "CF_WAKE_UP_REQ_CMD",  # CF_WAKE_UP_REQ_CMD_MID = 0x18b5
+        0x0b6: "CF_SPARE1_CMD",  # CF_SPARE1_CMD_MID = 0x18b6
+        0x0b7: "CF_SPARE2_CMD",  # CF_SPARE2_CMD_MID = 0x18b7
+        0x0b8: "CF_SPARE3_CMD",  # CF_SPARE3_CMD_MID = 0x18b8
+        0x0b9: "CF_SPARE4_CMD",  # CF_SPARE4_CMD_MID = 0x18b9
+        0x0ba: "CF_SPARE5_CMD",  # CF_SPARE5_CMD_MID = 0x18ba
+        0x0bb: "DS_CMD",  # DS_CMD_MID = 0x18bb
+        0x0bc: "DS_SEND_HK",  # DS_SEND_HK_MID = 0x18bc
+        0x0fa: "SBN_CMD",  # SBN_CMD_MID = 0x18fa
+        0x100: "TFTP_CMD",  # TFTP_CMD_MID = 0x1900
+        0x101: "TFTP_SEND_HK",  # TFTP_SEND_HK_MID = 0x1901
+        0x102: "TEST_SEND_HK",  # TEST_SEND_HK_MID = 0x1902
+        0x1a5: "HC_CMD",  # HC_CMD_MID = 0x19a5
+        0x1b1: "HSIM_CMD",  # HSIM_CMD_MID = 0x19b1 Hack-A-Sat final
+        # 0x1b1: "SIM_CMD",  # SIM_CMD_MID = 0x19b1 "That's not on my calendar" challenge
+        0x1b2: "HSIM_SEND_HK",  # HSIM_SEND_HK_MID = 0x19b2 Hack-A-Sat final
+        # 0x1b2: "SIM_SEND_HK",  # SIM_SEND_HK_MID = 0x19b2 "That's not on my calendar" challenge
+        0x1b3: "HSIM_SEND_DATA",  # HSIM_SEND_DATA_MID = 0x19b3 Hack-A-Sat final
+        # 0x1b3: "SIM_SEND_DATA",  # SIM_SEND_DATA_MID = 0x19b3 "That's not on my calendar" challenge
+        0x1b4: "HSIM_HC_DATA",  # HSIM_HC_DATA_MID = 0x19b4 Hack-A-Sat final
+        # 0x1b4: "SIM_HC_DATA",  # SIM_HC_DATA_MID = 0x19b4 "That's not on my calendar" challenge
+        0x1ba: "HC_SEND_HK",  # HC_SEND_HK_MID = 0x19ba
+        0x1c1: "HC_01HZ_WAKEUP",  # HC_01HZ_WAKEUP_MID = 0x19c1
+        0x1d0: "F42_CMD",  # F42_CMD_MID = 0x19d0
+        0x1d1: "F42_SEND_HK",  # F42_SEND_HK_MID = 0x19d1
+        0x1d2: "I42_CMD",  # I42_CMD_MID = 0x19d2
+        0x1d3: "I42_SEND_HK",  # I42_SEND_HK_MID = 0x19d3
+        0x1d4: "EYASSAT_IF_SEND_HK",  # EYASSAT_IF_SEND_HK_MID = 0x19d4
+        0x1d5: "EYASSAT_IF_CMD",  # EYASSAT_IF_CMD_MID = 0x19d5
+        0x1d7: "UART_TO_CI_CMD",  # UART_TO_CI_CMD_MID = 0x19d7
+        0x1d8: "UART_TO_CI_SEND_HK",  # UART_TO_CI_SEND_HK_MID = 0x19d8
+        0x1d9: "PL_IF_CMD",  # PL_IF_CMD_MID = 0x19d9
+        0x1da: "EYASSAT_IF_SEND_POWER",  # EYASSAT_IF_SEND_POWER_MID = 0x19da
+        0x1db: "EYASSAT_IF_SEND_ADCS",  # EYASSAT_IF_SEND_ADCS_MID = 0x19db
+        0x1dc: "EPHEM_CMD",  # EPHEM_CMD_MID = 0x19dc
+        0x1dd: "EPHEM_HK",  # EPHEM_HK_MID = 0x19dd
+        0x1de: "PL_IF_HK",  # PL_IF_HK_MID = 0x19de
+        0x1f0: "BM_CMD",  # BM_CMD_MID = 0x19f0
+        0x1f1: "BM_SEND_HK",  # BM_SEND_HK_MID = 0x19f1
+        0x1f2: "BM_WAKEUP",  # BM_WAKEUP_MID = 0x19f2
+        0x1f3: "BM_OUT_DATA",  # BM_OUT_DATA_MID = 0x19f3
+        0x1f4: "BM_CREATE_CHILD_TASK",  # BM_CREATE_CHILD_TASK_MID = 0x19f4
+        0x1f5: "BM_UNLOCK_PARAMS",  # BM_UNLOCK_PARAMS_MID = 0x19f5
+        0x7fc: "LTP over space packets",
+        0x7fd: "CF_INCOMING_PDU (CFDP)",  # CF_INCOMING_PDU_MID = 0x1ffd
+    },
+    # TLM
+    0: {
+        0x000: "CFE_ES_HK_TLM",  # CFE_ES_HK_TLM_MID = 0x0800
+        0x001: "CFE_EVS_HK_TLM",  # CFE_EVS_HK_TLM_MID = 0x0801
+        0x003: "CFE_SB_HK_TLM",  # CFE_SB_HK_TLM_MID = 0x0803
+        0x004: "CFE_TBL_HK_TLM",  # CFE_TBL_HK_TLM_MID = 0x0804
+        0x005: "CFE_TIME_HK_TLM",  # CFE_TIME_HK_TLM_MID = 0x0805
+        0x006: "CFE_TIME_DIAG_TLM",  # CFE_TIME_DIAG = 0x0806
+        # 0x008: "CFE_EVS_EVENT_MSG",  # CFE_EVS_EVENT_MSG_MID = 0x0808 in COSMOS
+        0x008: "CFE_EVS_LONG_EVENT_MSG",  # CFE_EVS_LONG_EVENT_MSG_MID = 0x0808 in "That's not on my calendar" challenge  # noqa
+        0x009: "CFE_EVS_SHORT_EVENT_MSG",  # CFE_EVS_SHORT_EVENT_MSG_MID = 0x0809 in "That's not on my calendar" challenge  # noqa
+        0x00a: "CFE_SB_STATS_TLM",  # CFE_SB_STATS_TLM_MID = 0x080a
+        0x00b: "CFE_ES_APP_TLM",  # CFE_ES_APP_TLM_MID = 0x080b
+        0x00c: "CFE_TBL_REG_TLM",  # CFE_TBL_REG_TLM_MID = 0x080c
+        0x00d: "CFE_SB_ALLSUBS_TLM",  # CFE_SB_ALLSUBS_TLM_MID = 0x080d
+        0x00e: "CFE_SB_ONESUB_TLM",  # CFE_SB_ONESUB_TLM_MID = 0x080e
+        0x00f: "CFE_ES_SHELL_TLM",  # CFE_ES_SHELL_TLM_MID = 0x080f
+        0x010: "CFE_ES_MEMSTATS_TLM",  # CFE_ES_MEMSTATS_TLM_MID = 0x0810
+        0x080: "KIT_TO_HK_TLM",  # KIT_TO_HK_TLM_MID = 0x0880
+        0x081: "KIT_TO_DATA_TYPE_TLM",  # KIT_TO_DATA_TYPE_TLM_MID = 0x0881
+        0x082: "ISIM_HK_TLM",  # ISIM_HK_TLM_MID = 0x0882
+        0x083: "OSK_GENAPP_HK_TLM",  # OSK_GENAPP_HK_TLM_MID = 0x0883
+        0x084: "KIT_CI_HK_TLM",  # KIT_CI_HK_TLM_MID = 0x0884
+        0x085: "HB_HK_TLM",  # HB_HK_TLM_MID = 0x0885
+        # 0x086: "KIT_TO_FLAG_TLM",  # KIT_TO_FLAG_TLM_MID = 0x0886 Specific to "That's not on my calendar" challenge  # noqa
+        0x087: "MM_HK_TLM",  # MM_HK_TLM_MID = 0x0887
+        0x08a: "FM_HK_TLM",  # FM_HK_TLM_MID = 0x088a
+        0x08b: "FM_FILE_INFO_TLM",  # FM_FILE_INFO_TLM_MID = 0x088b
+        0x08c: "FM_DIR_LIST_TLM",  # FM_DIR_LIST_TLM_MID = 0x088c
+        0x08d: "FM_OPEN_FILES_TLM",  # FM_OPEN_FILES_TLM_MID = 0x088d
+        0x08e: "FM_FREE_SPACE_TLM",  # FM_FREE_SPACE_TLM_MID = 0x088e
+        0x090: "MD_HK_TLM",  # MD_HK_TLM_MID = 0x0890
+        0x091: "MD_DWELL_PKT_1",  # MD_DWELL_PKT_MID_1 = 0x0891
+        0x092: "MD_DWELL_PKT_2",  # MD_DWELL_PKT_MID_2 = 0x0892
+        0x093: "MD_DWELL_PKT_3",  # MD_DWELL_PKT_MID_3 = 0x0893
+        0x094: "MD_DWELL_PKT_4",  # MD_DWELL_PKT_MID_4 = 0x0894
+        0x099: "KIT_SCH_HK_TLM",  # KIT_SCH_HK_TLM_MID = 0x0899
+        0x09b: "HK_HK_TLM",  # HK_HK_TLM_MID = 0x089b
+        0x09c: "HK_COMBINED_PKT1",  # HK_COMBINED_PKT1_MID = 0x089c
+        0x09d: "HK_COMBINED_PKT2",  # HK_COMBINED_PKT2_MID = 0x089d
+        0x09e: "HK_COMBINED_PKT3",  # HK_COMBINED_PKT3_MID = 0x089e
+        0x09f: "HK_COMBINED_PKT4",  # HK_COMBINED_PKT4_MID = 0x089f
+        0x0a4: "CS_HK_TLM",  # CS_HK_TLM_MID = 0x08a4
+        0x0a7: "LC_HK_TLM",  # LC_HK_TLM_MID = 0x08a7
+        0x0aa: "SC_HK_TLM",  # SC_HK_TLM_MID = 0x08aa
+        0x0ad: "HS_HK_TLM",  # HS_HK_TLM_MID = 0x08ad
+        0x0b0: "CF_HK_TLM",  # CF_HK_TLM_MID = 0x08b0
+        0x0b1: "CF_TRANS_TLM",  # CF_TRANS_TLM_MID = 0x08b1
+        0x0b2: "CF_CONFIG_TLM",  # CF_CONFIG_TLM_MID = 0x08b2
+        0x0b3: "CF_SPARE0_TLM",  # CF_SPARE0_TLM_MID = 0x08b3
+        0x0b4: "CF_SPARE1_TLM",  # CF_SPARE1_TLM_MID = 0x08b4
+        0x0b5: "CF_SPARE2_TLM",  # CF_SPARE2_TLM_MID = 0x08b5
+        0x0b6: "CF_SPARE3_TLM",  # CF_SPARE3_TLM_MID = 0x08b6
+        0x0b7: "CF_SPARE4_TLM",  # CF_SPARE4_TLM_MID = 0x08b7
+        0x0b8: "DS_HK_TLM",  # DS_HK_TLM_MID = 0x08b8
+        0x0b9: "DS_DIAG_TLM",  # DS_DIAG_TLM_MID = 0x08b9
+        0x0fc: "SBN_TLM",  # SBN_TLM_MID = 0x08fc
+        0x100: "TFTP_HK_TLM",  # TFTP_HK_TLM_MID = 0x0900
+        # 0x1b1: "HSIM_HK_TLM",  # HSIM_HK_TLM_MID = 0x09b1 in "That's not on my calendar" challenge
+        0x1b1: "HSIM_HK_TLM",  # HSIM_HK_TLM_MID = 0x09b1 in COSMOS
+        0x1d0: "F42_HK_TLM",  # F42_HK_TLM_MID = 0x09d0
+        0x1d1: "F42_CONTROL",  # F42_CONTROL_MID = 0x09d1
+        0x1d2: "I42_HK_TLM",  # I42_HK_TLM_MID = 0x09d2
+        0x1d4: "EYASSAT_IF_HK_TLM",  # EYASSAT_IF_HK_TLM_MID = 0x09d4
+        0x1d5: "EYASSAT_IF_INTERNAL_TLM",  # EYASSAT_IF_INTERNAL_TLM_MID = 0x09d5
+        0x1d6: "EYASSAT_IF_TEMPS_TLM",  # EYASSAT_IF_TEMPS_TLM_MID = 0x09d6
+        0x1d7: "EYASSAT_IF_POWER_TLM",  # EYASSAT_IF_POWER_TLM_MID = 0x09d7
+        0x1d8: "EYASSAT_IF_TLM_UNSCALED_POWER",  # EYASSAT_IF_TLM_UNSCALED_POWER_MID = 0x09d8 in "That's not on my calendar" challenge  # noqa
+        0x1d9: "EYASSAT_IF_ADCS_TLM",  # EYASSAT_IF_ADCS_TLM_MID = 0x09d9
+        0x1da: "EYASSAT_IF_CAL_TBL_TLM",  # EYASSAT_IF_CAL_TBL_TLM_MID = 0x09da
+        0x1dc: "UART_TO_CI_HK_TLM",  # UART_TO_CI_HK_TLM_MID = 0x09dc
+        0x1dd: "UART_TO_CI_DATA_TYPE_TLM",  # UART_TO_CI_DATA_TYPE_TLM_MID = 0x09dd
+        0x1de: "PL_IF_HK_TLM",  # PL_IF_HK_TLM_MID = 0x09de
+        0x1e0: "F42_SENSOR",  # F42_SENSOR_MID = 0x09e0
+        0x1e1: "F42_ACTUATOR",  # F42_ACTUATOR_MID = 0x09e1
+        0x1e2: "EPHEM_HK_TLM",  # EPHEM_HK_TLM_MID = 0x09e2
+        0x1e3: "EPHEM_TLM_EPHEM",  # EPHEM_TLM_EPHEM_MID = 0x09e3
+        0x1e4: "PL_IF_PL_STATUS_TLM",  # PL_IF_PL_STATUS_TLM_MID = 0x09e4
+        0x1f0: "BM_HK_TLM",  # BM_HK_TLM_MID = 0x09f0
+        0x1f1: "BM_TST",  # BM_TST_MID = 0x09f1
+        0x1f2: "BM_CHLD",  # BM_CHLD_MID = 0x09f2
+        0x240: "HC_HK_TLM",  # HC_HK_TLM_MID = 0x0a40
+        0x241: "HC_THERM_TLM",  # HC_THERM_TLM_MID = 0x0a41
+        0x703: "OSK_DEMO_HK_TLM",  # OSK_DEMO_HK_TLM_MID = 0x0f03
+        0x704: "OSK_DEMO_FR_TLM",  # OSK_DEMO_FR_TLM_MID = 0x0f04
+        0x7fc: "LTP over space packets",
+        0x7fd: "CF_SPACE_TO_GND_PDU (CFDP)",  # CF_SPACE_TO_GND_PDU_MID = 0x0ffd
+    },
+}

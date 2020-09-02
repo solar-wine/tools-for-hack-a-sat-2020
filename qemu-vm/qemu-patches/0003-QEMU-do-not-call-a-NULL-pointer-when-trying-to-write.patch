@@ -1,0 +1,47 @@
+From f8de09ecd0543d429646d74fa5dad6ad429d091e Mon Sep 17 00:00:00 2001
+From: Solar Wine Team <solarwine@gmail.com>
+Date: Thu, 23 Jul 2020 23:36:41 +0200
+Subject: [PATCH] QEMU: do not call a NULL pointer when trying to write some HW
+ regions
+
+---
+ qemu-leon3/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c b/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c
+index eaaedbfb..8ace7edf 100644
+--- a/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c
++++ b/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c
+@@ -135,8 +135,14 @@ static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     return ahb_pnp->regs[offset >> 2];
+ }
+ 
++static inline void grlib_ahb_pnp_write_unsupported(void *opaque, hwaddr offset,
++                                                   uint64_t value, unsigned size)
++{
++}
++
+ static const MemoryRegionOps grlib_ahb_pnp_ops = {
+     .read       = grlib_ahb_pnp_read,
++    .write      = grlib_ahb_pnp_write_unsupported,
+     .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
+@@ -234,8 +240,14 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     return apb_pnp->regs[offset >> 2];
+ }
+ 
++static inline void grlib_apb_pnp_write_unsupported(void *opaque, hwaddr offset,
++                                                   uint64_t value, unsigned size)
++{
++}
++
+ static const MemoryRegionOps grlib_apb_pnp_ops = {
+     .read       = grlib_apb_pnp_read,
++    .write      = grlib_apb_pnp_write_unsupported,
+     .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
+-- 
+2.17.1
+

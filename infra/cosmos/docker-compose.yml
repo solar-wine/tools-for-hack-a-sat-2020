@@ -1,0 +1,32 @@
+version: '3'
+services:
+  xpra:
+    build: xpra
+    ports:
+      - "6010:6010"
+    volumes:
+      - root-volume:/root
+      - x11-volume:/tmp/.X11-unix/
+  cosmos:
+    build: cosmos
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    # command: sleep 10000
+    ports:
+      - "7777:7777"
+      - "7778:7778"
+      - "7779:7779"
+    # deploy is not taken into account unless "docker stack deploy" is used
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: "any"
+        delay: "5s"
+        max_attempts: 100
+        window: "60s"
+    volumes:
+      - root-volume:/root
+      - x11-volume:/tmp/.X11-unix/
+volumes:
+  root-volume:
+  x11-volume:

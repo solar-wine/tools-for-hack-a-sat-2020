@@ -1,0 +1,67 @@
+TITLE 'cFS Command and Telemetry Server'
+
+# Visiona CFDP Interface
+BACKGROUND_TASK cfdp_engine_task.rb  
+
+# Can't map same target to two interfaces. Current strategy is to always connect locally
+# and allow a switch to a PiSat interface. Another option may be to start both interfaces
+# and then remap the targets.
+#INTERFACE PISAT_CFS_INT udp_cs_interface.rb 192.168.0.1 1234 1235 nil nil 128 nil nil
+#INTERFACE LOCAL_CFS_INT udp_cs_interface.rb 127.0.0.1 1234 1235 nil nil 128 nil nil
+#INTERFACE LOCAL_CFS_INT udp_cs_interface.rb 192.168.3.66 1234 1235 nil nil 128 nil nil
+#INTERFACE CFS_UART tcpip_client_interface.rb localhost 54321 54321 10.0 nil LENGTH 64 16 11 1 BIG_ENDIAN 4 0xDEADBEEF nil true
+INTERFACE CFS_UART serial_cs_interface.rb /dev/ttyUSB0 /dev/ttyUSB0 19200 NONE 1 10.0 nil LENGTH 64 16 11 1 BIG_ENDIAN 4 0xDEADBEEF nil true
+#INTERFACE CFS_UART tcpip_cs_client_interface.rb  localhost 54321 54321 10.0 nil LENGTH 64 16 11 1 BIG_ENDIAN 4 0xDEADBEEF nil true
+
+  PROTOCOL READ interfaces/cfdp_protocol
+  PROTOCOL WRITE interfaces/cfdp_protocol  
+
+  TARGET SYSTEM
+  
+  TARGET CFE_ES
+  TARGET CFE_EVS
+  TARGET CFE_SB
+  TARGET CFE_TBL
+  TARGET CFE_TIME
+  TARGET CF
+  TARGET CS
+  TARGET DS
+  TARGET FM
+  TARGET HK
+  TARGET HS
+  TARGET LC
+  TARGET MD
+  TARGET MM
+  TARGET SC
+  TARGET CFS_KIT
+  TARGET KIT_SCH
+  TARGET UART_TO_CI
+  TARGET RADIO
+
+  # CFDP Engine
+  TARGET PDU
+
+  # User Apps
+
+  #<cfs_kit>Create app tool will add target between the cfs_kit tags
+
+  TARGET  EYASSAT_IF
+  TARGET  PL_IF
+  TARGET  EPHEM
+
+  #</cfs_kit>
+  
+  
+INTERFACE COSMOSINT cmd_tlm_server_interface.rb
+  TARGET COSMOS
+  DISABLE_DISCONNECT
+
+
+# Visiona CFDP Interface
+#INTERFACE_TARGET CFDP cmd_tlm_server.txt
+INTERFACE CFDP_INT interfaces/visiona_cfdp_interface.rb
+  TARGET CFDP
+  DISABLE_DISCONNECT
+  PROTOCOL READ interfaces/cfdp_protocol
+  PROTOCOL WRITE interfaces/cfdp_protocol  
+  

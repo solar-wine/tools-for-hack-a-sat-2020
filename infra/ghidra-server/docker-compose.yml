@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ghidra:
+    build: .
+    ports:
+      - "13100:13100"
+      - "13101:13101"
+      - "13102:13102"
+    volumes:
+      - /srv/data/ghidra:/data

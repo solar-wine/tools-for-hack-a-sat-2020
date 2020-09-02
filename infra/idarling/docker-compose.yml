@@ -1,0 +1,9 @@
+version: '3'
+services:
+  idarling:
+    build: .
+    ports:
+      - "31013:31013"
+    volumes:
+      - /srv/data/idarling-logs:/install/idarling/idarling/logs
+      - /srv/data/idarling-files:/install/idarling/idarling/files

@@ -1,0 +1,22 @@
+# GDB script to fix a DOS issue in alignSyncWord in uart_to_ci.obj
+#
+# Issue: after sending less than 4 bytes to the UART link, function alignSyncWord
+# enters a very large loop that trashes the memory and wreaks havoc in the memory
+# of other RTEMS tasks.
+#
+# Reproducer: using the QEMU virtual machine, send 1, 2 or 3 bytes, maybe several
+# times, to the UART link available through radio.sock. For example:
+#
+#     printf 42 | socat - UNIX:radio.sock
+#
+# Usage: after "source gdbpython/__init__.py" and "rtems loadsymbols run" (to load symbols):
+#
+#     source fix_gdb_uart_to_ci_dos.gdbscript
+
+break *(alignSyncWord+416) if (*(int*)($fp+0x4c) < 4)
+commands
+    # Set end to 4, if end < 4 in the call to alignSyncWord, to prevent an integer overflow
+    print/x end
+    set *(int*)($fp+0x4c) = 4
+    continue
+end
