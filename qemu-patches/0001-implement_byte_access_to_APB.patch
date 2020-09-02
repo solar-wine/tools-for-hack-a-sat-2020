@@ -1,0 +1,16 @@
+Patch proposed by Jiri Gaisler.
+
+diff --git a/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+index 7338461694..eaaedbfbcc 100644
+--- a/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c
++++ b/qemu-4.1.0/hw/misc/grlib_ahb_apb_pnp.c
+@@ -228,6 +228,9 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     APBPnp *apb_pnp = GRLIB_APB_PNP(opaque);
+ 
++    if (size != 4)
++        return apb_pnp->regs[offset >> 2] >> ((~offset & 3) * 8);
++
+     return apb_pnp->regs[offset >> 2];
+ }
+ 
