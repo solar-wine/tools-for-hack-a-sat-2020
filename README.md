@@ -1,5 +1,9 @@
 # SPACE SECURITY CHALLENGE 2020 HACK-A-SAT: Tools & Infra
 
+## 2020 Hack-a-Sat Final challenges
+
+You can find the open source release of challenges and other code used in the 2020 Hack-a-Sat Final in this repository: [hackasat-final-2020](https://github.com/cromulencellc/hackasat-final-2020).
+
 ## QEMU + GDB to emulate and debug a satellite
 
 The subfolder [`qemu-vm`](https://github.com/solar-wine/tools-for-hack-a-sat-2020/tree/master/qemu-vm) contains instructions and patches to compile and launch QEMU for the satellite architecture.
