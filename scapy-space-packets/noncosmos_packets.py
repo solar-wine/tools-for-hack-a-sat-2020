@@ -108,7 +108,7 @@ bind_layers(CCSDSPacket, FM_DIR_LIST_PKT_TlmPkt, pkttype=0, apid=140)
 class CFDP_TlmPkt(Packet):
     """Packet received from CFDP subsystem, when transmitting files
 
-    Official spec: https://public.ccsds.org/Pubs/727x0b4.pdf
+    Official spec: https://public.ccsds.org/Pubs/727x0b5.pdf
     cf. function m__gen_pdu_header in https://github.com/nasa/CF/blob/master/fsw/src/PRI/pdu.c
     """
     name = "CFDP_TlmPkt"
